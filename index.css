@@ -1,0 +1,189 @@
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+html, body {
+    margin: 0;
+    background-color: #F2FFFF;
+    font-family: 'Inter', sans-serif;
+}
+
+body {
+    padding: 1em;
+}
+
+button,
+input {
+    font-family: inherit;
+    display: block;
+}
+
+button {
+    background-color: #4BDCB0;
+    border: 4px solid black;
+    border-radius: 40px;
+    font-weight: 700;
+    font-size: 1.56rem;
+    padding: .5em;
+    cursor: pointer;
+    margin: 0 auto;
+    width: 14em;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* WELCOME SCREEN */
+
+div#welcome-screen img {
+    width: 300px;
+    display: block;
+    margin: 0 auto;
+}
+
+/* INPUT SCREEN */
+
+div#input-screen form {
+    text-align: center;
+}
+
+div#input-screen label {
+    font-size: 1.375rem;
+    font-weight: 700;
+}
+
+div#input-screen input {
+    font-size: 1.56rem;
+    font-weight: 700;
+    text-align: center;
+    margin: 0 auto;
+    background: none;
+    border: 4px solid black;
+    border-radius: 40px;
+    padding: .5em;
+    width: 14em;
+    margin-top: .5em;
+    margin-bottom: .5em;
+}
+
+div#input-screen div#travellers-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+div#input-screen input#travellers {
+    margin: 0;
+    margin-top: .5em;
+    position: relative;
+    z-index: 0;
+}
+
+div#input-screen button#subtract,
+div#input-screen button#add {
+    color: white;
+    background-color: black;
+    border: none;
+    border-radius: 50%;
+    padding: 0;
+    margin: 0;
+    width: 1.5em;
+    height: 1.5em;
+    position: relative;
+    left: 2em;
+    top: -.8em;
+    z-index: 1;
+}
+
+div#input-screen button#add {
+    left: -2em;
+}
+
+div#input-screen input::-webkit-outer-spin-button,
+div#input-screen input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+div#input-screen input#travellers,
+div#input-screen input#flying-to,
+div#input-screen input#to-date {
+    margin-bottom: 2em;
+}
+
+div#input-screen button#submit {
+    margin-top: 1em;
+    margin-bottom: .5em;
+}
+
+div#input-screen .alert {
+    color: red;
+}
+
+/* LOADING SCREEN */
+
+div#loading-screen h1 {
+    text-align: center;
+    margin-top: 1em;
+}
+
+/* OUTPUT SCREEN */
+
+div#output-screen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+div#output-screen .bg {
+    background-color: #BBF7F7;
+    border-radius: 40px;
+    box-shadow: 0 2px 5px #999;
+    margin: 0;
+}
+
+div#output-screen h1,
+div#output-screen h2,
+div#output-screen h3,
+div#output-screen h4 {
+    width: 14em;
+    text-align: center;
+    padding: .5em;
+    margin: 0;
+}
+
+div#output-screen p {
+    padding: 1em;
+    width: 25em;
+}
+
+div#output-screen h1 {
+    padding-top: 0;
+    margin-bottom: .2em;
+    font-size: 3rem;
+}
+
+div#output-screen h2 {
+    font-size: 1.56rem;
+}
+
+div#output-screen h2.bg {
+    margin-top: 1em;
+}
+
+div#output-screen h3 {
+    font-size: 1.87rem;
+    margin-top: 1em;
+}
+
+div#output-screen h4 {
+    display: inline;
+    font-size: 1.25rem;
+    padding: .3em .8em;
+}
+
+div#output-screen button {
+    margin-bottom: 1em;
+}

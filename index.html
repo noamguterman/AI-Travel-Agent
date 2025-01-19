@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+	
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+	<meta charset="UTF-8" />
+	<link rel="preconnect" href="https://fonts.googleapis.com" />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet" />
+	<link rel="stylesheet" href="index.css" />
+</head>
+<body>
+	<div id="welcome-screen">
+		<img src="./icon.png" />
+		<button id="begin">Let's Begin</button>
+	</div>
+	
+	<div id="input-screen" class="hidden">
+		<form id="form">
+			<label for="travellers">Number of travellers</label>
+			<div id="travellers-container">
+				<button type="button" id="subtract">-</button>
+				<input id="travellers" type="number" value="1" readonly />
+				<button type="button" id="add">+</button>
+			</div>
+			
+			<label for="flying-from">Flying from</label>
+			<input id="flying-from" type="text" />
+			
+			<label for="flying-to">Flying to</label>
+			<input id="flying-to" type="text" />
+			
+			<label for="from-date">From Date</label>
+			<input id="from-date" type="date" />
+			
+			<label for="to-date">To Date</label>
+			<input id="to-date" type="date" />
+			
+			<label for="budget">Budget (in USD)</label>
+			<input id="budget" type="text" />
+			
+			<button type="button" id="submit">Plan My Trip!</button>
+			<small id="alert" class="alert hidden">Please fill out the details first.</small>
+		</form>
+	</div>
+	
+	<div id="loading-screen" class="hidden">
+		<h1>Loading...</h1>
+	</div>
+	
+	<div id="output-screen" class="hidden">
+		<h1>Your Trip</h1>
+		
+		<div>
+			<h4 class="bg" id="date-from"></h4>
+			<h4 class="bg" id="date-to"></h4>
+		</div>
+		
+		<h2 class="bg" id="location-from-to"></h2>
+		
+		<h3>Weather</h3>
+		<p class="bg" id="weather-text"></p>
+		
+		<h3>Flights</h3>
+		<div class="bg">
+			<p id="flight-text"></p>
+			<button id="book-flight-btn">Book</button>
+		</div>
+		
+		<h3>Hotel</h3>
+		<div class="bg">
+			<p id="hotel-text"></p>
+			<button id="book-hotel-btn">Book</button>
+		</div>
+	</div>
+	<script type="module" src="index.js"></script>
+</body>
+
+</html>
