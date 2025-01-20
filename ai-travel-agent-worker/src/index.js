@@ -1,39 +1,45 @@
 import OpenAI from 'openai';
 
-// Define the functions that were in tools.js
-const functions = [
-	{
-		function: getCurrentWeather,
-		parameters: {
-			type: "object",
-			properties: {
-				location: {
-					type: "string",
-					description: "The location from where to get the weather"
-				}
-			},
-			required: ["location"]
-		}
-	}
-]
+const corsHeaders = {
+  'Access-Control-Allow-Origin': 'https://ai-travel-agent-01h.pages.dev',
+  'Access-Control-Allow-Methods': 'GET, HEAD, POST, OPTIONS',
+  'Access-Control-Allow-Headers': 'Content-Type',
+  'Access-Control-Max-Age': '86400',
+};
+
+// Helper function to handle CORS preflight requests
+function handleOptions(request) {
+  if (request.headers.get('Origin') !== null &&
+      request.headers.get('Access-Control-Request-Method') !== null &&
+      request.headers.get('Access-Control-Request-Headers') !== null) {
+    // Handle CORS preflight requests
+    return new Response(null, {
+      headers: corsHeaders
+    });
+  } else {
+    // Handle standard OPTIONS request
+    return new Response(null, {
+      headers: {
+        'Allow': 'GET, HEAD, POST, OPTIONS',
+      }
+    });
+  }
+}
 
 export default {
   async fetch(request, env, ctx) {
-    try {
-      // Handle CORS preflight
-      if (request.method === "OPTIONS") {
-        return new Response(null, {
-          headers: {
-            "Access-Control-Allow-Origin": "*",
-            "Access-Control-Allow-Methods": "POST, OPTIONS",
-            "Access-Control-Allow-Headers": "Content-Type",
-          },
-        });
-      }
+    // Handle CORS preflight requests
+    if (request.method === 'OPTIONS') {
+      return handleOptions(request);
+    }
 
+    try {
       // Only accept POST requests
       if (request.method !== "POST") {
-        return new Response("Method not allowed", { status: 405 });
+        return new Response("Method not allowed", { 
+          status: 405,
+          headers: corsHeaders
+        });
       }
 
       // Initialize OpenAI client
@@ -45,7 +51,10 @@ export default {
       const { query } = await request.json();
       
       if (!query) {
-        return new Response("Query is required", { status: 400 });
+        return new Response("Query is required", { 
+          status: 400,
+          headers: corsHeaders
+        });
       }
 
       // Create messages array for the chat
@@ -69,55 +78,19 @@ export default {
         { role: "user", content: query }
       ];
 
-      // Mock function for getCurrentWeather since we can't maintain state in the worker
-      const getCurrentWeather = async (location) => {
-        // In a real implementation, this would call a weather API
-        return {
-          temperature: Math.floor(Math.random() * 30) + 10,
-          description: "partly cloudy"
-        };
-      };
-
       // Create chat completion
       const completion = await openai.chat.completions.create({
         model: "gpt-3.5-turbo-1106",
-        messages: messages,
-        functions: functions,
-        function_call: "auto"
+        messages: messages
       });
 
       // Get the response
-      let finalContent = completion.choices[0].message.content;
-
-      // If the model wants to call a function
-      if (completion.choices[0].message.function_call) {
-        const functionCall = completion.choices[0].message.function_call;
-        
-        if (functionCall.name === "getCurrentWeather") {
-          const args = JSON.parse(functionCall.arguments);
-          const weatherData = await getCurrentWeather(args.location);
-          
-          // Add the function result to messages
-          messages.push({
-            role: "function",
-            name: "getCurrentWeather",
-            content: JSON.stringify(weatherData)
-          });
-
-          // Get a new completion with the weather data
-          const secondCompletion = await openai.chat.completions.create({
-            model: "gpt-3.5-turbo-1106",
-            messages: messages
-          });
-
-          finalContent = secondCompletion.choices[0].message.content;
-        }
-      }
+      const finalContent = completion.choices[0].message.content;
 
       return new Response(JSON.stringify({ response: finalContent }), {
         headers: {
-          "Content-Type": "application/json",
-          "Access-Control-Allow-Origin": "*"
+          'Content-Type': 'application/json',
+          ...corsHeaders
         }
       });
 
@@ -126,8 +99,8 @@ export default {
       return new Response(JSON.stringify({ error: error.message }), {
         status: 500,
         headers: {
-          "Content-Type": "application/json",
-          "Access-Control-Allow-Origin": "*"
+          'Content-Type': 'application/json',
+          ...corsHeaders
         }
       });
     }
